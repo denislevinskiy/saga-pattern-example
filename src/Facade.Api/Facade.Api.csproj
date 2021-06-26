@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Saga.Catalog\Saga.Catalog.csproj" />
+      <ProjectReference Include="..\Saga.Core\Saga.Core.csproj" />
+      <ProjectReference Include="..\Saga.Customer\Saga.Customer.csproj" />
+      <ProjectReference Include="..\Saga.Orchestration\Saga.Orchestration.csproj" />
+      <ProjectReference Include="..\Saga.Order\Saga.Order.csproj" />
+    </ItemGroup>
+
+</Project>

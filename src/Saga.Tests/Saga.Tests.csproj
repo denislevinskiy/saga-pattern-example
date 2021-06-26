@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+
+        <AssemblyName>Saga.Tests</AssemblyName>
+
+        <RootNamespace>Saga.Tests</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NUnit" Version="3.12.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Saga.Catalog\Saga.Catalog.csproj" />
+      <ProjectReference Include="..\Saga.Core\Saga.Core.csproj" />
+      <ProjectReference Include="..\Saga.Customer\Saga.Customer.csproj" />
+      <ProjectReference Include="..\Saga.Infra\Saga.Infra.csproj" />
+      <ProjectReference Include="..\Saga.Messaging\Saga.Messaging.csproj" />
+      <ProjectReference Include="..\Saga.Orchestration\Saga.Orchestration.csproj" />
+      <ProjectReference Include="..\Saga.Order\Saga.Order.csproj" />
+    </ItemGroup>
+
+</Project>

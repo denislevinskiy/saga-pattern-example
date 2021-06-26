@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Saga.Core\Saga.Core.csproj" />
+      <ProjectReference Include="..\Saga.Infra\Saga.Infra.csproj" />
+      <ProjectReference Include="..\Saga.Messaging\Saga.Messaging.csproj" />
+    </ItemGroup>
+
+</Project>
