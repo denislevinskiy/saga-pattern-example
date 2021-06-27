@@ -5,6 +5,8 @@ namespace Saga.Customer.Repo
 {
     public interface ICustomerRepo
     {
-        Task UpdateAsync(CustomerAmountInfo item);
+        Task IncreaseOrdersAmountAsync(CustomerAmountInfo item);
+        
+        Task DecreaseOrdersAmountAsync(CustomerAmountInfo item);
     }
 }

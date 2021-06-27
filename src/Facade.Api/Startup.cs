@@ -34,10 +34,6 @@ namespace Facade.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            SqlMapper.AddTypeHandler(new GuidTypeDapperHandler());
-            SqlMapper.RemoveTypeMap(typeof(Guid));
-            SqlMapper.RemoveTypeMap(typeof(Guid?));
-            
             DbSetupHelper.Setup(); // create necessary DB infrastructure
             
             services.AddSingleton<ISQLiteConnectionFactory, SQLiteConnectionFactory>();

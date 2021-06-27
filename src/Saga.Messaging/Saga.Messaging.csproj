@@ -4,4 +4,8 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Saga.Messaging.Abstractions\Saga.Messaging.Abstractions.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -4,6 +4,7 @@ using System.Linq;
 using Saga.Catalog.Repo;
 using Saga.Core.Command;
 using Saga.Core.DTO;
+using Saga.Core.DTO.Error;
 using Saga.Infra.Messaging;
 using Saga.Messaging.Primitive;
 
@@ -24,26 +25,30 @@ namespace Saga.Catalog.Worker.Commit
 
         public void Run()
         {
-            var inputBroker = _messageBrokerFactory.GetPullBroker<List<CatalogItemInfo>>(MessageType.Request, CommandType.Commit);
-            var outputBroker = _messageBrokerFactory.GetPushBroker<List<CatalogItemInfo>>(MessageType.Success, CommandType.Commit);
-            var errorBroker = _messageBrokerFactory.GetPushBroker<Exception>(MessageType.Error, CommandType.Commit);
+            var inputBroker = _messageBrokerFactory.GetPullBroker<CatalogInfo>(MessageType.Request, CommandType.Commit);
+            var outputBroker = _messageBrokerFactory.GetPushBroker<CatalogInfo>(MessageType.Success, CommandType.Commit);
+            var errorBroker = _messageBrokerFactory.GetPushBroker<UpdateCatalogErrorInfo>(MessageType.Error, CommandType.Commit);
 
             inputBroker.MessageReceived += async (_, e) =>
             {
                 try
                 {
-                    e = e.Select(c => new CatalogItemInfo
+                    e.Items = e.Items.Select(c => new CatalogInfo.CatalogItemInfo
                     {
                         Id = c.Id,
-                        QtyInOrder = -1 * Math.Abs(c.QtyInOrder),
+                        QtyInOrder = c.QtyInOrder,
                     }).ToList();
                     
-                    await _repo.UpdateItemsAsync(e);
+                    await _repo.ReduceItemsQtyAsync(e.Items);
                     outputBroker.PushMessage(e);
                 }
                 catch (Exception ex)
                 {
-                    errorBroker.PushMessage(ex);
+                    errorBroker.PushMessage(new UpdateCatalogErrorInfo()
+                    {
+                        Correlation = e.Correlation,
+                        Exception = ex
+                    });
                 }
             };
             

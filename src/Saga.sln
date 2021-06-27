@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facade.Api", "Facade.Api\Fa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Context", "Context", "{A8689ECE-5D26-4365-B193-AE11966536C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.Tests", "Saga.Tests\Saga.Tests.csproj", "{C60A6B2B-76EA-414D-B8FA-0BAB3D095E18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.Tests.Integration", "Saga.Tests.Integration\Saga.Tests.Integration.csproj", "{9C118A21-F408-4C56-AB74-18EBAC74869A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +58,10 @@ Global
 		{8800FBC7-1932-4242-BE2D-5664B00A7B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8800FBC7-1932-4242-BE2D-5664B00A7B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8800FBC7-1932-4242-BE2D-5664B00A7B76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C60A6B2B-76EA-414D-B8FA-0BAB3D095E18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C60A6B2B-76EA-414D-B8FA-0BAB3D095E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C60A6B2B-76EA-414D-B8FA-0BAB3D095E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C60A6B2B-76EA-414D-B8FA-0BAB3D095E18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C118A21-F408-4C56-AB74-18EBAC74869A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C118A21-F408-4C56-AB74-18EBAC74869A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C118A21-F408-4C56-AB74-18EBAC74869A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C118A21-F408-4C56-AB74-18EBAC74869A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E4DB3C89-E751-4C3B-86BC-C031E47E423D} = {A8689ECE-5D26-4365-B193-AE11966536C8}

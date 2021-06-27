@@ -17,8 +17,13 @@ namespace Saga.Customer.Repo
             _connectionFactory = connectionFactory;
         }
         
-        public async Task UpdateAsync(CustomerAmountInfo item)
+        public async Task IncreaseOrdersAmountAsync(CustomerAmountInfo item)
         {
+            if (item.OrdersAmount <= 0)
+            {
+                throw new Exception($"Invalid orders amount: {item.OrdersAmount}");
+            }
+            
             await using var conn = _connectionFactory.OpenLocalDbConnection();
             
             await conn.ExecuteAsync(
@@ -27,6 +32,25 @@ namespace Saga.Customer.Repo
                     SET
                         TimeStamp = @TimeStamp,
                         OrdersAmount = OrdersAmount + @OrdersAmount
+                    WHERE Id = @Id",
+                new
+                {
+                    item.Id,
+                    TimeStamp = DateTimeOffset.UtcNow,
+                    item.OrdersAmount,
+                });
+        }
+
+        public async Task DecreaseOrdersAmountAsync(CustomerAmountInfo item)
+        {
+            await using var conn = _connectionFactory.OpenLocalDbConnection();
+            
+            await conn.ExecuteAsync(
+                $@"
+                    UPDATE {TableName}
+                    SET
+                        TimeStamp = @TimeStamp,
+                        OrdersAmount = OrdersAmount - @OrdersAmount
                     WHERE Id = @Id",
                 new
                 {

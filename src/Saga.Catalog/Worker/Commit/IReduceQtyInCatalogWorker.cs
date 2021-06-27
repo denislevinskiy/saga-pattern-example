@@ -1,4 +1,6 @@
-﻿namespace Saga.Catalog.Worker.Commit
+﻿using System;
+
+namespace Saga.Catalog.Worker.Commit
 {
     public interface IReduceQtyInCatalogWorker
     {

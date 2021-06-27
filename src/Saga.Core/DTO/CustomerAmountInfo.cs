@@ -5,9 +5,9 @@ using Saga.Core.Extensions;
 namespace Saga.Core.DTO
 {
     [ExcludeFromCodeCoverage]
-    public sealed class CustomerAmountInfo
+    public sealed class CustomerAmountInfo : CommonInfo
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
         
         public decimal OrdersAmount { get; set; }
         

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Saga.Core.Command;
-using Saga.Core.DTO;
 
 namespace Saga.Core
 {

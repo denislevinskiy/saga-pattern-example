@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Saga.Core.Command;
 using Saga.Core.DTO;
-using Saga.Core.Extensions;
+using Saga.Core.DTO.Error;
 using Saga.Infra.Messaging;
 using Saga.Messaging.Broker.Push;
 using Saga.Messaging.Primitive;
+using Saga.Orchestration.Command;
 using Saga.Orchestration.DTO;
 using Saga.Orchestration.Repo;
 
@@ -34,11 +35,11 @@ namespace Saga.Orchestration
                 messageBrokerFactory.GetPushBroker<OrderInfo>(MessageType.Request, CommandType.Rollback));
 
             pushBrokers.Add(
-                (typeof(List<CatalogItemInfo>), CommandType.Commit),
-                messageBrokerFactory.GetPushBroker<List<CatalogItemInfo>>(MessageType.Request, CommandType.Commit));
+                (typeof(CatalogInfo), CommandType.Commit),
+                messageBrokerFactory.GetPushBroker<CatalogInfo>(MessageType.Request, CommandType.Commit));
             pushBrokers.Add(
-                (typeof(List<CatalogItemInfo>), CommandType.Rollback),
-                messageBrokerFactory.GetPushBroker<List<CatalogItemInfo>>(MessageType.Request, CommandType.Rollback));
+                (typeof(CatalogInfo), CommandType.Rollback),
+                messageBrokerFactory.GetPushBroker<CatalogInfo>(MessageType.Request, CommandType.Rollback));
 
             pushBrokers.Add(
                 (typeof(CustomerAmountInfo), CommandType.Commit),
@@ -50,129 +51,6 @@ namespace Saga.Orchestration
 
         public async Task Run(Core.Saga saga)
         {
-            void RunCreateOrderBrokers()
-            {
-                var successBroker =
-                    _messageBrokerFactory.GetPullBroker<OrderInfo>(MessageType.Success, CommandType.Commit);
-                successBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.OrderCreated;
-                    await UpdateStateAsync(e.ToJsonString());
-                    await RunNext();
-                };
-                successBroker.Run();
-
-                var errorBroker = _messageBrokerFactory.GetPullBroker<Exception>(MessageType.Error, CommandType.Commit);
-                errorBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.OrderCreationFailed;
-                    await UpdateStateAsync(JsonExtensions.SerializeObject(e));
-                    await RunNext();
-                };
-                errorBroker.Run();
-                
-                var successRollbackBroker =
-                    _messageBrokerFactory.GetPullBroker<OrderInfo>(MessageType.Success, CommandType.Rollback);
-                successRollbackBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.OrderCreationRollbackSucceed;
-                    await UpdateStateAsync(e.ToJsonString());
-                    await RunNext();
-                };
-                successRollbackBroker.Run();
-
-                var errorRollbackBroker = _messageBrokerFactory.GetPullBroker<Exception>(MessageType.Error, CommandType.Rollback);
-                errorRollbackBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.OrderCreationRollbackFailed;
-                    await UpdateStateAsync(JsonExtensions.SerializeObject(e));
-                    await RunNext();
-                };
-                errorRollbackBroker.Run();
-            }
-
-            void RunReduceQtyInCatalogBrokers()
-            {
-                var successBroker =
-                    _messageBrokerFactory.GetPullBroker<List<CatalogItemInfo>>(MessageType.Success, CommandType.Commit);
-                successBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.CatalogUpdated;
-                    await UpdateStateAsync(JsonExtensions.SerializeObject(e));
-                    await RunNext();
-                };
-                successBroker.Run();
-
-                var errorBroker =
-                    _messageBrokerFactory.GetPullBroker<Exception>(MessageType.Error, CommandType.Commit);
-                errorBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.CatalogUpdateFailed;
-                    await UpdateStateAsync(JsonExtensions.SerializeObject(e));
-                    await RunNext();
-                };
-                errorBroker.Run();
-                
-                var successRollbackBroker =
-                    _messageBrokerFactory.GetPullBroker<List<CatalogItemInfo>>(MessageType.Success, CommandType.Rollback);
-                successRollbackBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.CatalogUpdateRollbackSucceed;
-                    await UpdateStateAsync(JsonExtensions.SerializeObject(e));
-                    await RunNext();
-                };
-                successRollbackBroker.Run();
-
-                var errorRollbackBroker =
-                    _messageBrokerFactory.GetPullBroker<Exception>(MessageType.Error, CommandType.Rollback);
-                errorRollbackBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.CatalogUpdateRollbackFailed;
-                    await UpdateStateAsync(JsonExtensions.SerializeObject(e));
-                    await RunNext();
-                };
-                errorRollbackBroker.Run();
-            }
-
-            void RunUpdateCustomerAmountBrokers()
-            {
-                var successBroker = _messageBrokerFactory.GetPullBroker<CustomerAmountInfo>(MessageType.Success, CommandType.Commit);
-                successBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.CustomerAmountUpdated;
-                    await UpdateStateAsync(e.ToJsonString());
-                    await RunNext();
-                };
-                successBroker.Run();
-
-                var errorBroker = _messageBrokerFactory.GetPullBroker<Exception>(MessageType.Error, CommandType.Commit);
-                errorBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.CustomerAmountUpdateFailed;
-                    await UpdateStateAsync(JsonExtensions.SerializeObject(e));
-                    await RunNext();
-                };
-                errorBroker.Run();
-                
-                var successRollbackBroker = _messageBrokerFactory.GetPullBroker<CustomerAmountInfo>(MessageType.Success, CommandType.Rollback);
-                successRollbackBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.CustomerAmountUpdateRollbackSucceed;
-                    await UpdateStateAsync(e.ToJsonString());
-                    await RunNext();
-                };
-                successRollbackBroker.Run();
-
-                var errorRollbackBroker = _messageBrokerFactory.GetPullBroker<Exception>(MessageType.Error, CommandType.Rollback);
-                errorRollbackBroker.MessageReceived += async (_, e) =>
-                {
-                    _state = SagaState.CustomerAmountUpdateRollbackFailed;
-                    await UpdateStateAsync(JsonExtensions.SerializeObject(e));
-                    await RunNext();
-                };
-                errorRollbackBroker.Run();
-            }
-
             RunCreateOrderBrokers();
             RunReduceQtyInCatalogBrokers();
             RunUpdateCustomerAmountBrokers();
@@ -201,16 +79,16 @@ namespace Saga.Orchestration
                 case SagaState.OrderCreated:
                     ExecuteCommand(_saga.ReduceQtyInCatalogCommand);
                     break;
-                case SagaState.OrderCreationFailed:
                 case SagaState.OrderCreationRollbackFailed:
                 case SagaState.CatalogUpdateRollbackFailed:
                 case SagaState.CustomerAmountUpdateRollbackFailed:
-                    _state = SagaState.SagaFailed; 
+                    _state = SagaState.SagaUnexpectedError; 
                     // an additional "on-fail"-logic can be added here
                     await RunNext();
                     break;
+                case SagaState.OrderCreationFailed:
                 case SagaState.OrderCreationRollbackSucceed:
-                    _state = SagaState.SagaCancelled;  
+                    _state = SagaState.SagaFailed;  
                     // an additional "on-cancel"-logic can be added here
                     await RunNext();
                     break;
@@ -237,8 +115,8 @@ namespace Saga.Orchestration
                     });
                     break;
                 case SagaState.SagaSucceed:
-                case SagaState.SagaCancelled:
                 case SagaState.SagaFailed:
+                case SagaState.SagaUnexpectedError:
                     await UpdateStateAsync();
                     _state = SagaState.End;
                     await RunNext();
@@ -267,6 +145,129 @@ namespace Saga.Orchestration
             {
                 // an additional exception handling can be added here; we just skip it for simplicity
             } 
+        }
+        
+        private void RunCreateOrderBrokers()
+        {
+            var successBroker =
+                _messageBrokerFactory.GetPullBroker<OrderInfo>(MessageType.Success, CommandType.Commit);
+            successBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.OrderCreated;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            successBroker.Run();
+
+            var errorBroker = _messageBrokerFactory.GetPullBroker<CreateOrderErrorInfo>(MessageType.Error, CommandType.Commit);
+            errorBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.OrderCreationFailed;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            errorBroker.Run();
+                
+            var successRollbackBroker =
+                _messageBrokerFactory.GetPullBroker<OrderInfo>(MessageType.Success, CommandType.Rollback);
+            successRollbackBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.OrderCreationRollbackSucceed;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            successRollbackBroker.Run();
+
+            var errorRollbackBroker = _messageBrokerFactory.GetPullBroker<CreateOrderErrorInfo>(MessageType.Error, CommandType.Rollback);
+            errorRollbackBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.OrderCreationRollbackFailed;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            errorRollbackBroker.Run();
+        }
+        
+        private void RunReduceQtyInCatalogBrokers()
+        {
+            var successBroker =
+                _messageBrokerFactory.GetPullBroker<CatalogInfo>(MessageType.Success, CommandType.Commit);
+            successBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.CatalogUpdated;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            successBroker.Run();
+
+            var errorBroker =
+                _messageBrokerFactory.GetPullBroker<UpdateCatalogErrorInfo>(MessageType.Error, CommandType.Commit);
+            errorBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.CatalogUpdateFailed;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            errorBroker.Run();
+                
+            var successRollbackBroker =
+                _messageBrokerFactory.GetPullBroker<CatalogInfo>(MessageType.Success, CommandType.Rollback);
+            successRollbackBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.CatalogUpdateRollbackSucceed;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            successRollbackBroker.Run();
+
+            var errorRollbackBroker =
+                _messageBrokerFactory.GetPullBroker<UpdateCatalogErrorInfo>(MessageType.Error, CommandType.Rollback);
+            errorRollbackBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.CatalogUpdateRollbackFailed;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            errorRollbackBroker.Run();
+        }
+        
+        private void RunUpdateCustomerAmountBrokers()
+        {
+            var successBroker = _messageBrokerFactory.GetPullBroker<CustomerAmountInfo>(MessageType.Success, CommandType.Commit);
+            successBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.CustomerAmountUpdated;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            successBroker.Run();
+
+            var errorBroker = _messageBrokerFactory.GetPullBroker<UpdateCustomerAmountErrorInfo>(MessageType.Error, CommandType.Commit);
+            errorBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.CustomerAmountUpdateFailed;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            errorBroker.Run();
+                
+            var successRollbackBroker = _messageBrokerFactory.GetPullBroker<CustomerAmountInfo>(MessageType.Success, CommandType.Rollback);
+            successRollbackBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.CustomerAmountUpdateRollbackSucceed;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            successRollbackBroker.Run();
+
+            var errorRollbackBroker = _messageBrokerFactory.GetPullBroker<UpdateCustomerAmountErrorInfo>(MessageType.Error, CommandType.Rollback);
+            errorRollbackBroker.MessageReceived += async (_, e) =>
+            {
+                _state = SagaState.CustomerAmountUpdateRollbackFailed;
+                await UpdateStateAsync(e.ToJsonString());
+                await RunNext();
+            };
+            errorRollbackBroker.Run();
         }
     }
 }

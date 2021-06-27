@@ -23,6 +23,8 @@ namespace Saga.Infra.SQLite
                         Info TEXT NULL                        
                     );");
                 
+                conn.Execute("DELETE FROM [SagaState];");
+                
                 conn.Execute(
                     $@"CREATE TABLE IF NOT EXISTS [Order]
                     (
@@ -101,6 +103,10 @@ namespace Saga.Infra.SQLite
                     );",
                     CreateCustomerData());
             }
+            
+            SqlMapper.AddTypeHandler(new GuidTypeDapperHandler());
+            SqlMapper.RemoveTypeMap(typeof(Guid));
+            SqlMapper.RemoveTypeMap(typeof(Guid?));
             
             using var conn = new SQLiteConnection($"Data Source={dbFileName}");
             CreateEmptyTables(conn);

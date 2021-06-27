@@ -107,10 +107,10 @@ namespace Saga.Order.Repo
             try
             {
                 await conn.ExecuteAsync(
-                    $@"DELETE FROM {ChildTableName} WHERE Id = @Id;",
+                    $@"DELETE FROM {TableName} WHERE Id = @Id;",
                     new
                     {
-                        Id = orderInfo.Id,
+                        orderInfo.Id,
                     },
                     tran);
 
@@ -120,7 +120,7 @@ namespace Saga.Order.Repo
                         $@"DELETE FROM {ChildTableName} WHERE OrderId = @Id;",
                         new
                         {
-                            OrderId = orderInfo.Id
+                            orderInfo.Id
                         },
                         tran
                     )));
@@ -131,6 +131,7 @@ namespace Saga.Order.Repo
             catch (Exception ex)
             {
                 await tran.RollbackAsync();
+                throw;
             }
         }
     }

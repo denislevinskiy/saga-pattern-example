@@ -6,6 +6,8 @@ namespace Saga.Catalog.Repo
 {
     public interface ICatalogRepo
     {
-        Task UpdateItemsAsync(IEnumerable<CatalogItemInfo> items);
+        Task ReduceItemsQtyAsync(List<CatalogInfo.CatalogItemInfo> items);
+        
+        Task IncreaseItemsQtyAsync(List<CatalogInfo.CatalogItemInfo> items);
     }
 }

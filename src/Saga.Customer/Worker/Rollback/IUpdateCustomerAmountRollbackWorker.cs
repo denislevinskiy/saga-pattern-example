@@ -1,4 +1,6 @@
-﻿namespace Saga.Customer.Worker.Rollback
+﻿using System;
+
+namespace Saga.Customer.Worker.Rollback
 {
     public interface IUpdateCustomerAmountRollbackWorker
     {

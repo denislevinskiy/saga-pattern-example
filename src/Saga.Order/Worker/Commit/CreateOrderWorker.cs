@@ -1,6 +1,7 @@
 ﻿using System;
 using Saga.Core.Command;
 using Saga.Core.DTO;
+using Saga.Core.DTO.Error;
 using Saga.Infra.Messaging;
 using Saga.Messaging.Primitive;
 using Saga.Order.Repo;
@@ -22,7 +23,7 @@ namespace Saga.Order.Worker.Commit
         {
             var inputBroker = _messageBrokerFactory.GetPullBroker<OrderInfo>(MessageType.Request, CommandType.Commit);
             var outputBroker = _messageBrokerFactory.GetPushBroker<OrderInfo>(MessageType.Success, CommandType.Commit);
-            var errorBroker = _messageBrokerFactory.GetPushBroker<Exception>(MessageType.Error, CommandType.Commit);
+            var errorBroker = _messageBrokerFactory.GetPushBroker<CreateOrderErrorInfo>(MessageType.Error, CommandType.Commit);
             
             inputBroker.MessageReceived += async (_, e) =>
             {
@@ -33,7 +34,11 @@ namespace Saga.Order.Worker.Commit
                 }
                 catch (Exception ex)
                 {
-                    errorBroker.PushMessage(ex);
+                    errorBroker.PushMessage(new CreateOrderErrorInfo()
+                    {
+                        Correlation = e.Correlation,
+                        Exception = ex
+                    });
                 }
             };
             

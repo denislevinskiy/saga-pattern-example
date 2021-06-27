@@ -7,25 +7,24 @@ namespace Saga.Messaging.Broker.Pull
     public sealed class PullMessageBroker<TMessage> : IPullMessageBroker<TMessage>
     {
         private readonly ConcurrentQueue<TMessage> _queue;
-        
+
         public event EventHandler<TMessage> MessageReceived;
-        
+
         public PullMessageBroker(ConcurrentQueue<TMessage> queue)
         {
             _queue = queue;
         }
-        
+
         public void Run()
         {
             var listener = new Thread(_ => StartWatchingQueue()) {IsBackground = true};
             listener.Start();
         }
-        
+
         private void StartWatchingQueue()
         {
             while (true)
             {
-                Thread.Sleep(500);
                 try
                 {
                     if (!_queue.IsEmpty)
@@ -41,6 +40,7 @@ namespace Saga.Messaging.Broker.Pull
                 {
                     // TODO: exception handling
                 }
+                Thread.Sleep(100);
             }
         }
     }

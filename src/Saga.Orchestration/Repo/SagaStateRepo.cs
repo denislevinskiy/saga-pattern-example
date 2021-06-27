@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
 using Saga.Infra.SQLite;
 using Saga.Orchestration.DTO;
@@ -16,7 +19,7 @@ namespace Saga.Orchestration.Repo
             _connectionFactory = connectionFactory;
         }
 
-        public async Task UpdateStateAsync(SagaStateInfo info)
+        public async Task UpdateStateAsync(DTO.SagaStateInfo info)
         {
             await using var conn = _connectionFactory.OpenLocalDbConnection();
 
@@ -37,6 +40,22 @@ namespace Saga.Orchestration.Repo
                     @Info
                 )",
                 info);
+        }
+
+        public async Task<List<SagaStateInfo>> GetListAsync(Guid correlation)
+        {
+            await using var conn = _connectionFactory.OpenLocalDbConnection();
+
+            return (await conn.QueryAsync<SagaStateInfo>(
+                $@"
+                SELECT
+                    Correlation,
+                    CAST(TimeStamp AS DATETIME),
+                    State,
+                    Info
+                FROM {TableName}
+                WHERE Correlation = @Correlation",
+                new {Correlation = correlation})).ToList();
         }
     }
 }

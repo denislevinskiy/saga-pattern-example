@@ -1,4 +1,4 @@
-﻿namespace Saga.Orchestration
+﻿namespace Saga.Orchestration.DTO
 {
     public static class SagaState
     {
@@ -16,8 +16,8 @@
         public const string CustomerAmountUpdateRollbackSucceed = "CustomerAmountUpdateRollbackSucceed";
         public const string CustomerAmountUpdateRollbackFailed = "CustomerAmountUpdateRollbackFailed";
         public const string SagaSucceed = "SagaSucceed";
-        public const string SagaCancelled = "SagaCancelled";
         public const string SagaFailed = "SagaFailed";
+        public const string SagaUnexpectedError = "SagaUnexpectedError";
         public const string End = "End";
     }
 }
