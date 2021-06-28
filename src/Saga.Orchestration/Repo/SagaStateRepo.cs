@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Saga.Infra.SQLite;
+using Saga.Infra.Abstractions;
 using Saga.Orchestration.DTO;
 
 namespace Saga.Orchestration.Repo
@@ -12,16 +12,16 @@ namespace Saga.Orchestration.Repo
     {
         private const string TableName = "[SagaState]";
 
-        private readonly ISQLiteConnectionFactory _connectionFactory;
+        private readonly IDataStorageConnectionFactory _connectionFactory;
 
-        public SagaStateRepo(ISQLiteConnectionFactory connectionFactory)
+        public SagaStateRepo(IDataStorageConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
 
-        public async Task UpdateStateAsync(DTO.SagaStateInfo info)
+        public async Task UpdateStateAsync(SagaStateInfo info)
         {
-            await using var conn = _connectionFactory.OpenLocalDbConnection();
+            using var conn = _connectionFactory.OpenLocalDbConnection();
 
             await conn.ExecuteAsync(
                 $@"
@@ -44,7 +44,7 @@ namespace Saga.Orchestration.Repo
 
         public async Task<List<SagaStateInfo>> GetListAsync(Guid correlation)
         {
-            await using var conn = _connectionFactory.OpenLocalDbConnection();
+            using var conn = _connectionFactory.OpenLocalDbConnection();
 
             return (await conn.QueryAsync<SagaStateInfo>(
                 $@"

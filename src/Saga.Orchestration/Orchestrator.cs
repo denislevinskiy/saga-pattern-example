@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Saga.Core.Command;
 using Saga.Core.DTO;
 using Saga.Core.DTO.Error;
-using Saga.Infra.Messaging;
-using Saga.Messaging.Broker.Push;
-using Saga.Messaging.Primitive;
+using Saga.Infra.Abstractions;
+using Saga.Infra.Abstractions.Broker;
+using Saga.Infra.Abstractions.Primitive;
 using Saga.Orchestration.Command;
 using Saga.Orchestration.DTO;
 using Saga.Orchestration.Repo;
@@ -66,7 +66,7 @@ namespace Saga.Orchestration
         {
             void ExecuteCommand<TPayload>(Command<TPayload> cmd)
             {
-                var broker = (PushMessageBroker<TPayload>) pushBrokers[(typeof(TPayload), cmd.CommandType)];
+                var broker = (IPushMessageBroker<TPayload>) pushBrokers[(typeof(TPayload), cmd.CommandType)];
                 broker.PushMessage(cmd.Payload);
             }
             

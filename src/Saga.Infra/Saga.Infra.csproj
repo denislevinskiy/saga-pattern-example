@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Saga.Core\Saga.Core.csproj" />
+      <ProjectReference Include="..\Saga.Infra.Abstractions\Saga.Infra.Abstractions.csproj" />
       <ProjectReference Include="..\Saga.Messaging\Saga.Messaging.csproj" />
     </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿namespace Saga.Messaging.Broker.Push
+﻿namespace Saga.Infra.Abstractions.Broker
 {
     public interface IPushMessageBroker<in TMessage>
     {

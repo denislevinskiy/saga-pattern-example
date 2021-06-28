@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Saga.Core.DTO;
-using Saga.Infra.SQLite;
+using Saga.Infra.Abstractions;
 
 namespace Saga.Order.Repo
 {
@@ -12,18 +12,18 @@ namespace Saga.Order.Repo
         private const string TableName = "[Order]";
         private const string ChildTableName = "OrderDetails";
 
-        private readonly ISQLiteConnectionFactory _connectionFactory;
+        private readonly IDataStorageConnectionFactory _connectionFactory;
 
-        public OrderRepo(ISQLiteConnectionFactory connectionFactory)
+        public OrderRepo(IDataStorageConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
 
         public async Task<Guid> AddAsync(OrderInfo orderInfo)
         {
-            await using var conn = _connectionFactory.OpenLocalDbConnection();
+            using var conn = _connectionFactory.OpenLocalDbConnection();
 
-            var tran = await conn.BeginTransactionAsync();
+            var tran = conn.BeginTransaction();
 
             var orderId = orderInfo.Id;
             var timeStamp = DateTimeOffset.UtcNow;
@@ -89,21 +89,21 @@ namespace Saga.Order.Repo
                     }
                 }
 
-                await tran.CommitAsync();
+                tran.Commit();
 
                 return orderId;
             }
             catch (Exception ex)
             {
-                await tran.RollbackAsync();
+                tran.Rollback();
                 throw;
             }
         }
 
         public async Task DeleteAsync(OrderInfo orderInfo)
         {
-            await using var conn = _connectionFactory.OpenLocalDbConnection();
-            var tran = await conn.BeginTransactionAsync();
+            using var conn = _connectionFactory.OpenLocalDbConnection();
+            var tran = conn.BeginTransaction();
             try
             {
                 await conn.ExecuteAsync(
@@ -126,11 +126,11 @@ namespace Saga.Order.Repo
                     )));
                 }
 
-                await tran.CommitAsync();
+                tran.Commit();
             }
             catch (Exception ex)
             {
-                await tran.RollbackAsync();
+                tran.Rollback();
                 throw;
             }
         }

@@ -1,9 +1,8 @@
 ﻿using Saga.Core.Command;
-using Saga.Messaging.Broker.Pull;
-using Saga.Messaging.Broker.Push;
-using Saga.Messaging.Primitive;
+using Saga.Infra.Abstractions.Broker;
+using Saga.Infra.Abstractions.Primitive;
 
-namespace Saga.Infra.Messaging
+namespace Saga.Infra.Abstractions
 {
     public interface IMessageBrokerFactory
     {

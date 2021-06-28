@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Dapper;
 using Saga.Core.DTO;
-using Saga.Infra.SQLite;
+using Saga.Infra.Abstractions;
 
 namespace Saga.Customer.Repo
 {
@@ -10,9 +10,9 @@ namespace Saga.Customer.Repo
     {
         private const string TableName = "Customer";
         
-        private readonly ISQLiteConnectionFactory _connectionFactory;
+        private readonly IDataStorageConnectionFactory _connectionFactory;
 
-        public CustomerRepo(ISQLiteConnectionFactory connectionFactory)
+        public CustomerRepo(IDataStorageConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
@@ -24,7 +24,7 @@ namespace Saga.Customer.Repo
                 throw new Exception($"Invalid orders amount: {item.OrdersAmount}");
             }
             
-            await using var conn = _connectionFactory.OpenLocalDbConnection();
+            using var conn = _connectionFactory.OpenLocalDbConnection();
             
             await conn.ExecuteAsync(
                 $@"
@@ -43,7 +43,7 @@ namespace Saga.Customer.Repo
 
         public async Task DecreaseOrdersAmountAsync(CustomerAmountInfo item)
         {
-            await using var conn = _connectionFactory.OpenLocalDbConnection();
+            using var conn = _connectionFactory.OpenLocalDbConnection();
             
             await conn.ExecuteAsync(
                 $@"

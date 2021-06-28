@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Saga.Messaging.Broker.Pull
+namespace Saga.Infra.Abstractions.Broker
 {
     public interface IPullMessageBroker<TMessage>
     {

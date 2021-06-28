@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Saga.Core.DTO;
-using Saga.Infra.SQLite;
+using Saga.Infra.Abstractions;
 
 namespace Saga.Catalog.Repo
 {
@@ -12,9 +12,9 @@ namespace Saga.Catalog.Repo
     {
         private const string TableName = "[Catalog]";
         
-        private readonly ISQLiteConnectionFactory _connectionFactory;
+        private readonly IDataStorageConnectionFactory _connectionFactory;
 
-        public CatalogRepo(ISQLiteConnectionFactory connectionFactory)
+        public CatalogRepo(IDataStorageConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory;
         }
@@ -29,7 +29,7 @@ namespace Saga.Catalog.Repo
                 }
             });
             
-            await using var conn = _connectionFactory.OpenLocalDbConnection();
+            using var conn = _connectionFactory.OpenLocalDbConnection();
 
             await Task.WhenAll(items.Select(async item =>
             {
@@ -65,10 +65,10 @@ namespace Saga.Catalog.Repo
 
         public async Task IncreaseItemsQtyAsync(List<CatalogInfo.CatalogItemInfo> items)
         {
-            await using var conn = _connectionFactory.OpenLocalDbConnection();
+            using var conn = _connectionFactory.OpenLocalDbConnection();
 
             await Task.WhenAll(items.Select(
-                async item => conn.ExecuteAsync(
+                async item => await conn.ExecuteAsync(
                     $@"
                         UPDATE {TableName}
                         SET

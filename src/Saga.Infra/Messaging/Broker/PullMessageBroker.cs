@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using Saga.Infra.Abstractions.Broker;
 
-namespace Saga.Messaging.Broker.Pull
+namespace Saga.Infra.Messaging.Broker
 {
     public sealed class PullMessageBroker<TMessage> : IPullMessageBroker<TMessage>
     {

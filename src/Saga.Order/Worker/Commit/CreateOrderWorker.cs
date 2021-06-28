@@ -2,8 +2,8 @@
 using Saga.Core.Command;
 using Saga.Core.DTO;
 using Saga.Core.DTO.Error;
-using Saga.Infra.Messaging;
-using Saga.Messaging.Primitive;
+using Saga.Infra.Abstractions;
+using Saga.Infra.Abstractions.Primitive;
 using Saga.Order.Repo;
 
 namespace Saga.Order.Worker.Commit

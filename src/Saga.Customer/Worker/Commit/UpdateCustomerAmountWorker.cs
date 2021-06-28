@@ -3,8 +3,8 @@ using Saga.Core.Command;
 using Saga.Core.DTO;
 using Saga.Core.DTO.Error;
 using Saga.Customer.Repo;
-using Saga.Infra.Messaging;
-using Saga.Messaging.Primitive;
+using Saga.Infra.Abstractions;
+using Saga.Infra.Abstractions.Primitive;
 
 namespace Saga.Customer.Worker.Commit
 {

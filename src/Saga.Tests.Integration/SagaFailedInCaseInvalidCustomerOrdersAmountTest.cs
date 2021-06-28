@@ -5,12 +5,9 @@ using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
-using Dapper;
 using Saga.Core.Command;
 using Saga.Core.DTO;
 using Saga.Core.Extensions;
-using Saga.Infra.SQLite;
-using Saga.Orchestration.Repo;
 using Saga.Tests.Integration.Fixtures;
 using Xunit;
 using Xunit.Abstractions;
@@ -18,18 +15,20 @@ using Xunit.Abstractions;
 namespace Saga.Tests.Integration
 {
     [Collection("WebServerFixture")]
-    public class SagaSucceedTest
+    public class SagaFailedInCaseInvalidCustomerOrdersAmountTest
     {
         private readonly ITestOutputHelper _testOutputHelper;
         private readonly HttpClient _client;
 
-        public SagaSucceedTest(WebServerFixture webServerFixture, ITestOutputHelper testOutputHelper)
+        public SagaFailedInCaseInvalidCustomerOrdersAmountTest(
+            WebServerFixture webServerFixture, 
+            ITestOutputHelper testOutputHelper)
         {
             _testOutputHelper = testOutputHelper;
             _client = webServerFixture.HttpClient;
         }
 
-        [Fact(DisplayName = "Saga succeed in case valid data sent")]
+        [Fact(DisplayName = "Saga failed in case invalid customer orders amount")]
         public async Task SagaSucceed()
         {
             const string url = "/order-saga/run";
@@ -77,7 +76,7 @@ namespace Saga.Tests.Integration
                     {
                         Correlation = correlation,
                         Id = Guid.Parse("2d5fe5ae-9f9e-414a-8425-529d075ac86b"),
-                        OrdersAmount = 50,
+                        OrdersAmount = -50,
                     }
                 },
             };
@@ -98,13 +97,15 @@ namespace Saga.Tests.Integration
             state.ForEach(item => _testOutputHelper.WriteLine(
                 $"{item.Correlation};{item.TimeStamp};{item.State};{item.Info}"));
             
-            Assert.Equal(6, state.Count);
+            Assert.Equal(8, state.Count);
             
             Assert.Contains(state, item => item.State == "Begin");
             Assert.Contains(state, item => item.State == "OrderCreated");
             Assert.Contains(state, item => item.State == "CatalogUpdated");
-            Assert.Contains(state, item => item.State == "CustomerAmountUpdated");
-            Assert.Contains(state, item => item.State == "SagaSucceed");
+            Assert.Contains(state, item => item.State == "CustomerAmountUpdateFailed");
+            Assert.Contains(state, item => item.State == "CatalogUpdateRollbackSucceed");
+            Assert.Contains(state, item => item.State == "OrderCreationRollbackSucceed");
+            Assert.Contains(state, item => item.State == "SagaFailed");
             Assert.Contains(state, item => item.State == "End");
         }
     }

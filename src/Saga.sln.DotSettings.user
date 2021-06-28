@@ -9,17 +9,23 @@
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=847c210a_002Dfd6d_002D42f6_002Da195_002D04b2b2d53a8b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Saga succeed in case valid data sent" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::9C118A21-F408-4C56-AB74-18EBAC74869A::net5.0::Saga.Tests.Integration.BusinessTypeIntegrationTests.SagaSucceed&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f2676603_002D3663_002D49ed_002Daa85_002Dd2d37af34f88/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Add #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::C60A6B2B-76EA-414D-B8FA-0BAB3D095E18::net5.0::Saga.Tests.SuccessTests.Add&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f2676603_002D3663_002D49ed_002Daa85_002Dd2d37af34f88/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Add #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fc6dc97a_002Da43d_002D472b_002Da655_002D4a1ca29e96d5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Add" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fc6dc97a_002Da43d_002D472b_002Da655_002D4a1ca29e96d5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Add" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Dev\medium\Saga\src\Saga.Tests.Integration" Presentation="&amp;lt;Saga.Tests.Integration&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	</wpf:ResourceDictionary>

@@ -1,4 +1,4 @@
-﻿namespace Saga.Messaging.Primitive
+﻿namespace Saga.Infra.Abstractions.Primitive
 {
     public enum MessageType
     {

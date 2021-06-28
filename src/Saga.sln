@@ -10,15 +10,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.Customer", "Saga.Custo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.Orchestration", "Saga.Orchestration\Saga.Orchestration.csproj", "{9E0BFA7C-9DBB-46BD-8383-DD9C7A01C638}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.Messaging", "Saga.Messaging\Saga.Messaging.csproj", "{7FEACB9F-6F03-4F43-9210-46A33EC4E3A0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.Infra", "Saga.Infra\Saga.Infra.csproj", "{883A337F-D9EC-45FB-8A95-C00086AFA612}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facade.Api", "Facade.Api\Facade.Api.csproj", "{8800FBC7-1932-4242-BE2D-5664B00A7B76}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Context", "Context", "{A8689ECE-5D26-4365-B193-AE11966536C8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.Tests.Integration", "Saga.Tests.Integration\Saga.Tests.Integration.csproj", "{9C118A21-F408-4C56-AB74-18EBAC74869A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saga.Infra.Abstractions", "Saga.Infra.Abstractions\Saga.Infra.Abstractions.csproj", "{D139CC05-04A8-49FA-8C53-A08209EE6315}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,10 +44,6 @@ Global
 		{9E0BFA7C-9DBB-46BD-8383-DD9C7A01C638}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E0BFA7C-9DBB-46BD-8383-DD9C7A01C638}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E0BFA7C-9DBB-46BD-8383-DD9C7A01C638}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7FEACB9F-6F03-4F43-9210-46A33EC4E3A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7FEACB9F-6F03-4F43-9210-46A33EC4E3A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7FEACB9F-6F03-4F43-9210-46A33EC4E3A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7FEACB9F-6F03-4F43-9210-46A33EC4E3A0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{883A337F-D9EC-45FB-8A95-C00086AFA612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{883A337F-D9EC-45FB-8A95-C00086AFA612}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{883A337F-D9EC-45FB-8A95-C00086AFA612}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,10 +56,11 @@ Global
 		{9C118A21-F408-4C56-AB74-18EBAC74869A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C118A21-F408-4C56-AB74-18EBAC74869A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C118A21-F408-4C56-AB74-18EBAC74869A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D139CC05-04A8-49FA-8C53-A08209EE6315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D139CC05-04A8-49FA-8C53-A08209EE6315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D139CC05-04A8-49FA-8C53-A08209EE6315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D139CC05-04A8-49FA-8C53-A08209EE6315}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E4DB3C89-E751-4C3B-86BC-C031E47E423D} = {A8689ECE-5D26-4365-B193-AE11966536C8}
-		{386420A3-06E6-4346-BADD-DFF78A3F799E} = {A8689ECE-5D26-4365-B193-AE11966536C8}
-		{ACC199BE-FD38-4926-94A7-C69D2F257571} = {A8689ECE-5D26-4365-B193-AE11966536C8}
 	EndGlobalSection
 EndGlobal

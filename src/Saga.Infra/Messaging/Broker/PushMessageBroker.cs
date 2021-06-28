@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using Saga.Infra.Abstractions.Broker;
 
-namespace Saga.Messaging.Broker.Push
+namespace Saga.Infra.Messaging.Broker
 {
     public sealed class PushMessageBroker<TMessage> : IPushMessageBroker<TMessage>
     {

@@ -5,7 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Saga.Infra.Abstractions\Saga.Infra.Abstractions.csproj" />
+      <PackageReference Include="Stub.System.Data.SQLite.Core.NetStandard" Version="1.0.114.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Saga.Core\Saga.Core.csproj" />
       <ProjectReference Include="..\Saga.Messaging.Abstractions\Saga.Messaging.Abstractions.csproj" />
     </ItemGroup>
 

@@ -1,5 +1,3 @@
-using System;
-using Dapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +10,7 @@ using Saga.Catalog.Worker.Rollback;
 using Saga.Customer.Repo;
 using Saga.Customer.Worker.Commit;
 using Saga.Customer.Worker.Rollback;
+using Saga.Infra.Abstractions;
 using Saga.Infra.Messaging;
 using Saga.Infra.SQLite;
 using Saga.Orchestration;
@@ -36,7 +35,7 @@ namespace Facade.Api
         {
             DbSetupHelper.Setup(); // create necessary DB infrastructure
             
-            services.AddSingleton<ISQLiteConnectionFactory, SQLiteConnectionFactory>();
+            services.AddSingleton<IDataStorageConnectionFactory, SQLiteConnectionFactory>();
             services.AddSingleton<IMessageBrokerFactory, MessageBrokerFactory>();
             
             services.AddSingleton<IOrderRepo, OrderRepo>();

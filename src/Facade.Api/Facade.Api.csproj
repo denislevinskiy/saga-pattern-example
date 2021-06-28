@@ -12,6 +12,7 @@
       <ProjectReference Include="..\Saga.Catalog\Saga.Catalog.csproj" />
       <ProjectReference Include="..\Saga.Core\Saga.Core.csproj" />
       <ProjectReference Include="..\Saga.Customer\Saga.Customer.csproj" />
+      <ProjectReference Include="..\Saga.Infra\Saga.Infra.csproj" />
       <ProjectReference Include="..\Saga.Orchestration\Saga.Orchestration.csproj" />
       <ProjectReference Include="..\Saga.Order\Saga.Order.csproj" />
     </ItemGroup>
