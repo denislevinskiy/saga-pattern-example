@@ -23,11 +23,10 @@ namespace Saga.Infra.Messaging.Broker
             try
             {
                 _queue.Enqueue(e);
-                // TODO: add retry
             }
             catch (Exception ex)
             {
-                // TODO: exception handling
+                // exception handling goes here
             }
         }
     }

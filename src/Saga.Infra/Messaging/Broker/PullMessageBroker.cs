@@ -34,12 +34,11 @@ namespace Saga.Infra.Messaging.Broker
                         {
                             MessageReceived?.Invoke(this, message);
                         }
-                        // TODO: add retry
                     }
                 }
                 catch (Exception ex)
                 {
-                    // TODO: exception handling
+                    // exception handling goes here
                 }
                 Thread.Sleep(100);
             }
